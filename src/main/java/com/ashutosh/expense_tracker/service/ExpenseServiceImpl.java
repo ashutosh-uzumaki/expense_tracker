@@ -1,5 +1,6 @@
 package com.ashutosh.expense_tracker.service;
 
+import com.ashutosh.expense_tracker.custom_exceptions.ResourceNotFoundException;
 import com.ashutosh.expense_tracker.entity.Expense;
 import com.ashutosh.expense_tracker.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ExpenseServiceImpl implements ExpenseService{
         if(expense.isPresent()){
             return expense.get();
         }
-        throw new RuntimeException("Expense is not found for the given id "+id);
+        throw new ResourceNotFoundException("Expense is not found for the given id "+id);
     }
 
     @Override
@@ -51,5 +52,15 @@ public class ExpenseServiceImpl implements ExpenseService{
        existing.setAmount(expense.getAmount() != null ? expense.getAmount() : existing.getAmount());
        existing.setDescription(expense.getDescription() != null ? expense.getDescription() : existing.getDescription());
        return expenseRepository.save(existing);
+    }
+
+    @Override
+    public List<Expense> readByCategory(String category, Pageable page){
+        return expenseRepository.findByCategory(category, page).toList();
+    }
+
+    @Override
+    public List<Expense> findByKeywordName(String keyword, Pageable page){
+        return expenseRepository.findByNameContaining(keyword, page).toList();
     }
 }

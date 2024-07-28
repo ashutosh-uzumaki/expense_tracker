@@ -1,16 +1,17 @@
 package com.ashutosh.expense_tracker.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Data
@@ -22,10 +23,13 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
+    @NotBlank(message = "Expense name cannot be null")
+    @Size(min = 3)
     @Column(name="expense_name")
     private String name;
     private String description;
     @Column(name="expense_amount")
+    @NotNull
     private BigDecimal amount;
     private String category;
     private Date date;

@@ -13,4 +13,7 @@ public interface ExpenseService {
     Expense saveExpense(Expense expense);
     List<Expense> saveMultipleExpenses(List<Expense> expenses);
     Expense updateExpense(Expense expense, Long id);
+    List<Expense> readByCategory(String category, Pageable page);
+
+    List<Expense> findByKeywordName(String keyword, Pageable page);
 }
